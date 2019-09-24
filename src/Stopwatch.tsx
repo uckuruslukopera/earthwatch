@@ -2,15 +2,16 @@ import * as React from "react";
 import styled from "styled-components";
 import Time from "./Time";
 import Message from "./Message";
-import randomBackground from "./utils/randomBackground";
-import secondsToMessage from "./utils/secondsToMessage";
+import randomBackground from "./_utils/randomBackground";
+import secondsToMessage from "./_utils/secondsToMessage";
+const logo = require('./_assets/gp_logo_2_white.png');
 
-interface Props {}
+interface Props { }
 
 interface State {
   seconds: number;
   isCounting: boolean;
-  containerBackground: {backgroundImage: string};
+  containerBackground: { backgroundImage: string };
   message: string;
 }
 
@@ -28,9 +29,6 @@ const ReplayButton = styled.button`
   border: none;
   background-color: transparent;
   outline: unset;
-  position: absolute;
-  top: 10px;
-  right: 10px;
 `;
 
 const Icon = styled.i`
@@ -43,26 +41,58 @@ const ReplayIcon = styled.i`
 
 const Div = styled.div`
   text-align: center;
-  padding: 1rem;
+  margin-top: 20vh;
 `;
 
 const Container = styled.div`
-  height: 100vh;
+  height: calc(100vh - 16px);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+`;
+
+const Header = styled.div`
+  display:flex;
+  justify-content: space-between;
+  position:absolute;
+  top: 8px;
+  right: 8px;
+  left: 8px;
+  padding-top: 5px;
+`;
+
+const Footer = styled.div`
+  display:flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right:8px;
+  padding: 10px;
+  font-size: 13px;
+  background-color: #fff;
+  a, span {
+    text-decoration: none;
+    font-weight: 700;
+    color: #6c0;
+    font-famiy: Verdana
+  }
+`;
+
+const Logo = styled.div`
+
 `;
 
 export default class Stopwatch extends React.Component<Props, State> {
-  timer;
+  timer: any;
   state: State = {
     seconds: 0,
     isCounting: false,
-    containerBackground: {backgroundImage: randomBackground()},
-    message: "The Earth is a fine place and worth fighting for."
+    containerBackground: { backgroundImage: randomBackground() },
+    message: ""
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -72,40 +102,51 @@ export default class Stopwatch extends React.Component<Props, State> {
   reset() {
     this.setState({
       seconds: 0,
-      isCounting: false
+      isCounting: false,
+      containerBackground: {
+        backgroundImage: randomBackground()
+      }
     });
+    clearInterval(this.timer);
   }
 
   start() {
     this.setState({ isCounting: !this.state.isCounting });
     this.timer = setInterval(() => {
       this.setState({ seconds: this.state.seconds + 1 });
-      if(this.state.seconds % 10 === 0) {
+      if (this.state.seconds % 10 === 0) {
         this.setState({
           containerBackground: {
             backgroundImage: randomBackground()
-          },
-          message: secondsToMessage(this.state.seconds)
+          }
         })
       }
     }, 1000);
   }
 
-  pause() {
-    this.setState({ isCounting: !this.state.isCounting });
-    clearInterval(this.timer);
-  }
-
   stop() {
-    this.setState({ isCounting: !this.state.isCounting });
+    this.setState({
+      isCounting: !this.state.isCounting, message: secondsToMessage(this.state.seconds)
+    });
     clearInterval(this.timer);
+
   }
 
   render() {
-    
+
     return (
       <Container style={this.state.containerBackground}>
+        <Header>
+          <Logo>
+            <img src={logo} />
+          </Logo>
+          <ReplayButton onClick={this.reset}>
+            <ReplayIcon className="material-icons">replay</ReplayIcon>
+          </ReplayButton>
+        </Header>
+
         <Div>
+
           <Button onClick={this.state.isCounting ? this.stop : this.start}>
             <Icon className="material-icons">
               {this.state.isCounting ? "pause" : "play_arrow"}
@@ -115,11 +156,14 @@ export default class Stopwatch extends React.Component<Props, State> {
 
           <Message message={this.state.message} />
 
-          <ReplayButton onClick={this.reset}>
-            <ReplayIcon className="material-icons">replay</ReplayIcon>
-          </ReplayButton>
+
         </Div>
+        <Footer>
+          <span>Greenpeace Yüzyüze</span>
+          <span>2019</span>
+        </Footer>
       </Container>
+
     );
   }
 }

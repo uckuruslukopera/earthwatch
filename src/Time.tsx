@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import secondstoHms from './utils/secondsToHms';
+import secondstoHms from './_utils/secondsToHms';
 
 interface Props {
     seconds: number;

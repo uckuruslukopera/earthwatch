@@ -1,4 +1,4 @@
-const secondsToHms = (seconds) => {
+const secondsToHms = (seconds: number) => {
     seconds = Number(seconds);
     var h = Math.floor(seconds / 3600);
     var m = Math.floor(seconds % 3600 / 60);

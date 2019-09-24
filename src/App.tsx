@@ -1,5 +1,10 @@
-import * as React from "react";
-import { render } from "react-dom";
-import Stopwatch from "./Stopwatch";
+import React from 'react';
+import Stopwatch from './Stopwatch';
 
-render(<Stopwatch />, document.getElementById('main'));
+const App: React.FC = () => {
+  return (
+    <Stopwatch></Stopwatch>
+  );
+}
+
+export default App;

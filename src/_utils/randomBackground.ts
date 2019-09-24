@@ -9,6 +9,7 @@ const backgrounds = [
     "linear-gradient(#A8FF78, #78FFD6)",
     "linear-gradient(#F3BAE3, #9CBAED)",
     "linear-gradient(#64C8BD, #094A6F)",
+    "linear-gradient(#04CE9B, #64E408)"
 
 
     // "linear-gradient(#D3CCE3, #E9E4F0)",
@@ -31,8 +32,9 @@ const backgrounds = [
 ];
 
 const randomBackground = () => {
-    const random = Math.floor(Math.random() * Math.floor(backgrounds.length));
-    return backgrounds[random];
+    // const random = Math.floor(Math.random() * Math.floor(backgrounds.length));
+    // return backgrounds[random];
+    return "linear-gradient(#04CE9B, #64E408)";
 }
 
 export default randomBackground;
