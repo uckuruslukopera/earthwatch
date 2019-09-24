@@ -58,7 +58,7 @@ const Header = styled.div`
   top: 8px;
   right: 8px;
   left: 8px;
-  padding-top: 5px;
+  padding: 5px 15px;
 `;
 
 const Footer = styled.div`
