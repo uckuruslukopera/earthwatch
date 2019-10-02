@@ -4,9 +4,11 @@ import Time from "./Time";
 import Message from "./Message";
 import randomBackground from "./_utils/randomBackground";
 import secondsToMessage from "./_utils/secondsToMessage";
-const logo = require('./_assets/gp_logo_2_white.png');
+import * as workerTimers from "worker-timers";
 
-interface Props { }
+const logo = require("./_assets/gp_logo_2_white.png");
+
+interface Props {}
 
 interface State {
   seconds: number;
@@ -52,9 +54,9 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  display:flex;
+  display: flex;
   justify-content: space-between;
-  position:absolute;
+  position: absolute;
   top: 8px;
   right: 8px;
   left: 8px;
@@ -62,26 +64,25 @@ const Header = styled.div`
 `;
 
 const Footer = styled.div`
-  display:flex;
+  display: flex;
   justify-content: space-between;
   position: absolute;
   bottom: 8px;
   left: 8px;
-  right:8px;
+  right: 8px;
   padding: 10px;
   font-size: 13px;
   background-color: #fff;
-  a, span {
+  a,
+  span {
     text-decoration: none;
     font-weight: 700;
     color: #6c0;
-    font-famiy: Verdana
+    font-famiy: Verdana;
   }
 `;
 
-const Logo = styled.div`
-
-`;
+const Logo = styled.div``;
 
 export default class Stopwatch extends React.Component<Props, State> {
   timer: any;
@@ -105,35 +106,35 @@ export default class Stopwatch extends React.Component<Props, State> {
       isCounting: false,
       containerBackground: {
         backgroundImage: randomBackground()
-      }
+      },
+      message: ''
     });
-    clearInterval(this.timer);
+    workerTimers.clearInterval(this.timer);
   }
 
   start() {
     this.setState({ isCounting: !this.state.isCounting });
-    this.timer = setInterval(() => {
+    this.timer = workerTimers.setInterval(() => {
       this.setState({ seconds: this.state.seconds + 1 });
       if (this.state.seconds % 10 === 0) {
         this.setState({
           containerBackground: {
             backgroundImage: randomBackground()
           }
-        })
+        });
       }
     }, 1000);
   }
 
   stop() {
     this.setState({
-      isCounting: !this.state.isCounting, message: secondsToMessage(this.state.seconds)
+      isCounting: !this.state.isCounting,
+      message: secondsToMessage(this.state.seconds)
     });
-    clearInterval(this.timer);
-
+    workerTimers.clearInterval(this.timer);
   }
 
   render() {
-
     return (
       <Container style={this.state.containerBackground}>
         <Header>
@@ -146,7 +147,6 @@ export default class Stopwatch extends React.Component<Props, State> {
         </Header>
 
         <Div>
-
           <Button onClick={this.state.isCounting ? this.stop : this.start}>
             <Icon className="material-icons">
               {this.state.isCounting ? "pause" : "play_arrow"}
@@ -155,15 +155,12 @@ export default class Stopwatch extends React.Component<Props, State> {
           <Time seconds={this.state.seconds} />
 
           <Message message={this.state.message} />
-
-
         </Div>
         <Footer>
           <span>Greenpeace Yüzyüze</span>
           <span>2019</span>
         </Footer>
       </Container>
-
     );
   }
 }
