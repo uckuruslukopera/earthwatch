@@ -45,7 +45,7 @@ const Div = styled.div`
 `;
 
 const Container = styled.div`
-min-height: calc(100vh - 16px);
+  height: calc(100vh - 16px);
   display: flex;
   flex-direction: column;
   align-items: center;
