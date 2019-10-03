@@ -153,7 +153,7 @@ export default class Stopwatch extends React.Component<Props, State> {
       <Container>
         <Header>
           <Logo>
-            <img src={logo} />
+            <img src={logo} alt="Greenpeace Logo"/>
           </Logo>
           <ReplayButton onClick={this.reset}>
             <ReplayIcon className="material-icons">replay</ReplayIcon>

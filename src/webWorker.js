@@ -7,16 +7,16 @@ export default () => {
     self.addEventListener("message", event => { // eslint-disable-line no-restricted-globals
         if (!event || !event.data) return;
 
-        if (event.data.msg == "start") {
+        if (event.data.msg === "start") {
             g_yieldMS = event.data.yieldms;
             g_shouldContinue = true;
             g_lastTime = new Date().getTime();
             keepTime(); 
         }
-        if (event.data.msg == "stop") {
+        if (event.data.msg === "stop") {
             g_shouldContinue = false;
         }
-        if (event.data.msg == "reset") {
+        if (event.data.msg === "reset") {
             g_timeBucket = 0;
             postMessage(g_timeBucket / 1000);
         }
@@ -27,7 +27,7 @@ export default () => {
     function keepTime() {
         //calculate our new time and tell the main thread about it
         const newTime = new Date().getTime();
-        if (newTime != g_lastTime) {
+        if (newTime !== g_lastTime) {
             g_timeBucket += newTime - g_lastTime;
             g_lastTime = newTime;
 
