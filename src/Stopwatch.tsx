@@ -42,33 +42,44 @@ const ReplayIcon = styled.i`
 const Div = styled.div`
   text-align: center;
   margin-top: 20vh;
+  flex-grow: 1;
+ 
 `;
 
 const Container = styled.div`
-  height: calc(100vh - 16px);
+min-height: calc(100vh - 16px);
+
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   background-image: linear-gradient(#04CE9B, #64E408)
 `;
 
 const Header = styled.div`
   display:flex;
   justify-content: space-between;
-  position:absolute;
-  top: 8px;
-  right: 8px;
-  left: 8px;
+  flex-shrink: 0;
   padding: 5px 15px;
 `;
 
 const Footer = styled.div`
   display:flex;
   justify-content: space-between;
-  position:absolute;
-  bottom: 8px;
-  right: 8px;
-  left: 8px;
+
+
+  font-size: 13px;
+  background-color: #fff;
+  a, span {
+    text-decoration: none;
+    font-weight: 700;
+    color: #6c0;
+    font-famiy: Verdana
+  }
+`;
+
+const FooterContainer = styled.div`
+
+  flex-shrink: 0;
   padding: 10px;
   font-size: 13px;
   background-color: #fff;
@@ -174,10 +185,13 @@ export default class Stopwatch extends React.Component<Props, State> {
 
 
         </Div>
-        <Footer>
+        <FooterContainer>
+          <Footer>
           <span>Greenpeace Yüzyüze</span>
           <span>2019</span>
-        </Footer>
+          </Footer>
+
+        </FooterContainer>
       </Container>
 
     );
