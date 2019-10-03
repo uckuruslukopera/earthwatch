@@ -1,24 +1,24 @@
 export default () => {
-    let g_shouldContinue = false;
-    let g_timeBucket = 0;
-    let g_lastTime = 0;
-    let g_yieldMS = 1;
+    let shouldContinue = false;
+    let timeBucket = 0;
+    let lastTime = 0;
+    let yieldMS = 1;
 
     self.addEventListener("message", event => { // eslint-disable-line no-restricted-globals
         if (!event || !event.data) return;
 
         if (event.data.msg === "start") {
-            g_yieldMS = event.data.yieldms;
-            g_shouldContinue = true;
-            g_lastTime = new Date().getTime();
+            yieldMS = event.data.yieldms;
+            shouldContinue = true;
+            lastTime = new Date().getTime();
             keepTime(); 
         }
         if (event.data.msg === "stop") {
-            g_shouldContinue = false;
+            shouldContinue = false;
         }
         if (event.data.msg === "reset") {
-            g_timeBucket = 0;
-            postMessage(g_timeBucket / 1000);
+            timeBucket = 0;
+            postMessage(timeBucket / 1000);
         }
 
     });
@@ -27,16 +27,16 @@ export default () => {
     function keepTime() {
         //calculate our new time and tell the main thread about it
         const newTime = new Date().getTime();
-        if (newTime !== g_lastTime) {
-            g_timeBucket += newTime - g_lastTime;
-            g_lastTime = newTime;
+        if (newTime !== lastTime) {
+            timeBucket += newTime - lastTime;
+            lastTime = newTime;
 
-            postMessage(g_timeBucket / 1000);
+            postMessage(timeBucket / 1000);
         }
 
         //if we should continue, do so, but yield the thread (hopefully this yields so new messages can come in!)
-        if (g_shouldContinue) {
-            setTimeout(keepTime, g_yieldMS);
+        if (shouldContinue) {
+            setTimeout(keepTime, yieldMS);
         }
     }
 

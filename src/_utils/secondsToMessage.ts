@@ -6,8 +6,8 @@ const secondsToMessage = (seconds: number) => {
             text: "tane plastik şişe satıldı.",
         }, {
             type: "plastic",
-            perSecond: 0.02,
-            text: "kamyon plastik denizlere karıştı."
+            perSecond: 0.83,
+            text: "ton plastik denizlere karıştı."
         }, {
             type: "seabird",
             perSecond: 0.031,

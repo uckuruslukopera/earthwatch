@@ -113,7 +113,8 @@ export default class Stopwatch extends React.Component<Props, State> {
   reset() {
     this.setState({
       seconds: 0,
-      isCounting: false
+      isCounting: false,
+      message: ''
     });
     if (typeof (Worker) !== "undefined") {
       this.timer.postMessage({'msg':'reset'});
