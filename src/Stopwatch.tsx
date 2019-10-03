@@ -2,7 +2,6 @@ import * as React from "react";
 import styled from "styled-components";
 import Time from "./Time";
 import Message from "./Message";
-import randomBackground from "./_utils/randomBackground";
 import secondsToMessage from "./_utils/secondsToMessage";
 import worker from "./webWorker.js";
 import WebWorker from "./workerSetup";
@@ -13,7 +12,6 @@ interface Props { }
 interface State {
   seconds: number;
   isCounting: boolean;
-  containerBackground: { backgroundImage: string };
   message: string;
 }
 
@@ -51,6 +49,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: linear-gradient(#04CE9B, #64E408)
 `;
 
 const Header = styled.div`
@@ -90,7 +89,6 @@ export default class Stopwatch extends React.Component<Props, State> {
   state: State = {
     seconds: 0,
     isCounting: false,
-    containerBackground: { backgroundImage: randomBackground() },
     message: ""
   };
 
@@ -115,10 +113,7 @@ export default class Stopwatch extends React.Component<Props, State> {
   reset() {
     this.setState({
       seconds: 0,
-      isCounting: false,
-      containerBackground: {
-        backgroundImage: randomBackground()
-      }
+      isCounting: false
     });
     if (typeof (Worker) !== "undefined") {
       this.timer.postMessage({'msg':'reset'});
@@ -155,7 +150,7 @@ export default class Stopwatch extends React.Component<Props, State> {
   render() {
 
     return (
-      <Container style={this.state.containerBackground}>
+      <Container>
         <Header>
           <Logo>
             <img src={logo} />
