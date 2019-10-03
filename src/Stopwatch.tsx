@@ -65,10 +65,10 @@ const Header = styled.div`
 const Footer = styled.div`
   display:flex;
   justify-content: space-between;
-  position: absolute;
+  position:absolute;
   bottom: 8px;
+  right: 8px;
   left: 8px;
-  right:8px;
   padding: 10px;
   font-size: 13px;
   background-color: #fff;
