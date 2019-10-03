@@ -45,7 +45,7 @@ const Div = styled.div`
 `;
 
 const Container = styled.div`
-  height: calc(100vh - 16px);
+min-height: calc(100vh - 56px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,10 +65,8 @@ const Header = styled.div`
 const Footer = styled.div`
   display:flex;
   justify-content: space-between;
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  right:8px;
+  height: 16px;
+  width: 100%;
   padding: 10px;
   font-size: 13px;
   background-color: #fff;
