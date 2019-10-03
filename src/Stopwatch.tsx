@@ -4,6 +4,8 @@ import Time from "./Time";
 import Message from "./Message";
 import randomBackground from "./_utils/randomBackground";
 import secondsToMessage from "./_utils/secondsToMessage";
+import worker from "./webWorker.js";
+import WebWorker from "./workerSetup";
 const logo = require('./_assets/gp_logo_2_white.png');
 
 interface Props { }
@@ -97,7 +99,18 @@ export default class Stopwatch extends React.Component<Props, State> {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.reset = this.reset.bind(this);
+
+
   }
+
+  componentDidMount = () => {
+    if (typeof (Worker) !== "undefined") {
+      this.timer = new WebWorker(worker);
+      this.timer.onmessage = (event: any) => {
+        this.setState({ seconds: event.data });
+      };
+    }
+  };
 
   reset() {
     this.setState({
@@ -107,29 +120,36 @@ export default class Stopwatch extends React.Component<Props, State> {
         backgroundImage: randomBackground()
       }
     });
-    clearInterval(this.timer);
+    if (typeof (Worker) !== "undefined") {
+      this.timer.postMessage({'msg':'reset'});
+    } else {
+      clearInterval(this.timer);
+    }
   }
 
   start() {
     this.setState({ isCounting: !this.state.isCounting });
-    this.timer = setInterval(() => {
-      this.setState({ seconds: this.state.seconds + 1 });
-      if (this.state.seconds % 10 === 0) {
-        this.setState({
-          containerBackground: {
-            backgroundImage: randomBackground()
-          }
-        })
-      }
-    }, 1000);
+    // First check whether Web Workers are supported
+    if (typeof (Worker) !== "undefined") {
+
+      this.timer.postMessage({ 'msg': 'start' });
+    } else {
+      // Web workers are not supported by your browser
+      this.timer = setInterval(() => {
+        this.setState({ seconds: this.state.seconds + 1 });
+      }, 1000);
+    }
   }
 
   stop() {
     this.setState({
       isCounting: !this.state.isCounting, message: secondsToMessage(this.state.seconds)
     });
-    clearInterval(this.timer);
-
+    if (typeof (Worker) !== "undefined") {
+      this.timer.postMessage({'msg':'stop'});
+    } else {
+      clearInterval(this.timer);
+    }
   }
 
   render() {
